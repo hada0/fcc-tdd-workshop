@@ -121,12 +121,15 @@ suite('Functional Tests', function() {
        chai.request(server)
         .put('/travellers')
         /** send {surname: 'Colombo'} here **/
-        // .send({...})
+        .send({name: 'Cristoforo', surname: 'Colombo', dates: '1451 -'})  
         .end(function(err, res){
           
           /** your tests here **/
-          assert.fail(); // remove this after adding tests
-          
+          assert.equal(res.status, 200, 'response status should be 200');
+          assert.equal(res.type, 'application/json', "Response should be json");
+          assert.equal(res.body.name, 'Cristoforo', 'res.body.name should be "Christoforo"');
+          assert.equal(res.body.surname, 'Colombo', 'res.body.surname should be "Colombo"' );
+          assert.equal(res.body.dates, '1451 - 1506', 'res.body.dates should be "1451 - 1506"' );
           done(); // Never forget the 'done()' callback...
         });
       });
@@ -134,15 +137,18 @@ suite('Functional Tests', function() {
       /** Repetition is the mother of learning. **/
       // Try it again. This time without help !!
       test('send {surname: "da Verrazzano"}', function(done) {
+        chai.request(server)
+        .put('/travellers')
+        .send({surname: 'da Verrazzano'})  
+        .end(function(err, res){
         /** place the chai-http request code here... **/
-        
+        assert.equal(res.body.surname, 'da Verrazzano', 'res.body.surname should be "de Verrazzano"' );
         /** place your tests inside the callback **/
-        
-        assert.fail(); // remove this after adding tests
+         // remove this after adding tests
         done();
       });
     });
-
+  });
   });
 
   // In the next challenges we are going to simulate the human interaction with
